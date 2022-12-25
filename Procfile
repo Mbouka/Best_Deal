@@ -1,1 +1,1 @@
-web: gunicorn Best_Deal.wsgi --log-file
+web: gunicorn Best_Deal.wsgi.application
