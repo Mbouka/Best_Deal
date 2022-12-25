@@ -189,7 +189,7 @@ def home(request):
                  messages.error(request, ' price should not be a word ')
 
     contexte = {'form':form}
-    return render(request, 'deals/Templates/index.html',contexte)
+    return render(request, 'deals/index.html',contexte)
 
 
 
