@@ -1,1 +1,1 @@
-web: gunicorn 'Best-Deal.wsgi'
+web: gunicorn 'Best_Deal.wsgi'
