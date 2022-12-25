@@ -3,60 +3,60 @@
  * Copyright (c) 2014 Rafael Staib (http://www.jquery-steps.com)
  * Licensed under MIT http://www.opensource.org/licenses/MIT
  */
-//;(function ($, undefined)
-//{
-//$.fn.extend({
-//    _aria: function (name, value)
-//    {
-//        return this.attr("aria-" + name, value);
-//    },
-//
-//    _removeAria: function (name)
-//    {
-//        return this.removeAttr("aria-" + name);
-//    },
-//
-//    _enableAria: function (enable)
-//    {
-//        return (enable == null || enable) ?
-//            this.removeClass("disabled")._aria("disabled", "false") :
-//            this.addClass("disabled")._aria("disabled", "true");
-//    },
-//
-//    _showAria: function (show)
-//    {
-//        return (show == null || show) ?
-//            this.show()._aria("hidden", "false") :
-//            this.hide()._aria("hidden", "true");
-//    },
-//
-//    _selectAria: function (select)
-//    {
-//        return (select == null || select) ?
-//            this.addClass("current")._aria("selected", "true") :
-//            this.removeClass("current")._aria("selected", "false");
-//    },
-//
-//    _id: function (id)
-//    {
-//        return (id) ? this.attr("id", id) : this.attr("id");
-//    }
-//});
-//
-//if (!String.prototype.format)
-//{
-//    String.prototype.format = function()
-//    {
-//        var args = (arguments.length === 1 && $.isArray(arguments[0])) ? arguments[0] : arguments;
-//        var formattedString = this;
-//        for (var i = 0; i < args.length; i++)
-//        {
-//            var pattern = new RegExp("\\{" + i + "\\}", "gm");
-//            formattedString = formattedString.replace(pattern, args[i]);
-//        }
-//        return formattedString;
-//    };
-//}
+;(function ($, undefined)
+{
+$.fn.extend({
+    _aria: function (name, value)
+    {
+        return this.attr("aria-" + name, value);
+    },
+
+    _removeAria: function (name)
+    {
+        return this.removeAttr("aria-" + name);
+    },
+
+    _enableAria: function (enable)
+    {
+        return (enable == null || enable) ?
+            this.removeClass("disabled")._aria("disabled", "false") :
+            this.addClass("disabled")._aria("disabled", "true");
+    },
+
+    _showAria: function (show)
+    {
+        return (show == null || show) ?
+            this.show()._aria("hidden", "false") :
+            this.hide()._aria("hidden", "true");
+    },
+
+    _selectAria: function (select)
+    {
+        return (select == null || select) ?
+            this.addClass("current")._aria("selected", "true") :
+            this.removeClass("current")._aria("selected", "false");
+    },
+
+    _id: function (id)
+    {
+        return (id) ? this.attr("id", id) : this.attr("id");
+    }
+});
+
+if (!String.prototype.format)
+{
+    String.prototype.format = function()
+    {
+        var args = (arguments.length === 1 && $.isArray(arguments[0])) ? arguments[0] : arguments;
+        var formattedString = this;
+        for (var i = 0; i < args.length; i++)
+        {
+            var pattern = new RegExp("\\{" + i + "\\}", "gm");
+            formattedString = formattedString.replace(pattern, args[i]);
+        }
+        return formattedString;
+    };
+}
 
 /**
  * A global unique id count.
@@ -140,10 +140,10 @@ var _missingCorrespondingElementErrorMessage = "One or more corresponding step {
  * @param wizard {Object} A jQuery wizard object
  * @param step {Object} The step object to add
  **/
-//function addStepToCache(wizard, step)
-//{
-//    getSteps(wizard).push(step);
-//}
+function addStepToCache(wizard, step)
+{
+    getSteps(wizard).push(step);
+}
 
 function analyzeData(wizard, options, state)
 {
@@ -159,7 +159,7 @@ function analyzeData(wizard, options, state)
     {
         throwError(_missingCorrespondingElementErrorMessage, "titles");
     }
-        
+
     var startIndex = options.startIndex;
 
     state.stepCount = stepTitles.length;
@@ -168,7 +168,7 @@ function analyzeData(wizard, options, state)
     if (options.saveState && $.cookie)
     {
         var savedState = $.cookie(_cookiePrefix + getUniqueId(wizard));
-        // Sets the saved position to the start index if not undefined or out of range 
+        // Sets the saved position to the start index if not undefined or out of range
         var savedIndex = parseInt(savedState, 0);
         if (!isNaN(savedIndex) && savedIndex < state.stepCount)
         {
@@ -400,7 +400,7 @@ function getUniqueId(wizard)
 
 /**
  * Gets a valid enum value by checking a specific enum key or value.
- * 
+ *
  * @static
  * @private
  * @method getValidEnumValue
@@ -797,7 +797,7 @@ function paginationClickHandler(event)
             finishStep(wizard, state);
             break;
 
-        case "":
+        case "next":
             goToNextStep(wizard, options, state);
             break;
 
@@ -936,44 +936,44 @@ function registerEvents(wizard, options)
  * @param index {Integer} The position (zero-based) of the step to remove
  * @return Indecates whether the item is removed.
  **/
-//function removeStep(wizard, options, state, index)
-//{
-//    // Index out of range and try deleting current item will return false.
-//    if (index < 0 || index >= state.stepCount || state.currentIndex === index)
-//    {
-//        return false;
-//    }
-//
-//    // Change data
-//    removeStepFromCache(wizard, index);
-//    if (state.currentIndex > index)
-//    {
-//        state.currentIndex--;
-//        saveCurrentStateToCookie(wizard, options, state);
-//    }
-//    state.stepCount--;
-//
-//    getStepTitle(wizard, index).remove();
-//    getStepPanel(wizard, index).remove();
-//    getStepAnchor(wizard, index).parent().remove();
-//
-//    // Set the "first" class to the new first step button
-//    if (index === 0)
-//    {
-//        wizard.find(".steps li").first().addClass("first");
-//    }
-//
-//    // Set the "last" class to the new last step button
-//    if (index === state.stepCount)
-//    {
-//        wizard.find(".steps li").eq(index).addClass("last");
-//    }
-//
-//    refreshSteps(wizard, options, state, index);
-//    refreshPagination(wizard, options, state);
-//
-//    return true;
-//}
+function removeStep(wizard, options, state, index)
+{
+    // Index out of range and try deleting current item will return false.
+    if (index < 0 || index >= state.stepCount || state.currentIndex === index)
+    {
+        return false;
+    }
+
+    // Change data
+    removeStepFromCache(wizard, index);
+    if (state.currentIndex > index)
+    {
+        state.currentIndex--;
+        saveCurrentStateToCookie(wizard, options, state);
+    }
+    state.stepCount--;
+
+    getStepTitle(wizard, index).remove();
+    getStepPanel(wizard, index).remove();
+    getStepAnchor(wizard, index).parent().remove();
+
+    // Set the "first" class to the new first step button
+    if (index === 0)
+    {
+        wizard.find(".steps li").first().addClass("first");
+    }
+
+    // Set the "last" class to the new last step button
+    if (index === state.stepCount)
+    {
+        wizard.find(".steps li").eq(index).addClass("last");
+    }
+
+    refreshSteps(wizard, options, state, index);
+    refreshPagination(wizard, options, state);
+
+    return true;
+}
 
 function removeStepFromCache(wizard, index)
 {
