@@ -37,7 +37,16 @@
 			                	<div class="wizard-header">
 									<h3 class="heading">Results</h3>
 								</div>
-								
+								{% if hemle > 1 or mango > 1%}
+								<div class="form-holder form-holder-1">
+
+										<p style="color:#4fab40">
+											The first result is the one closest to your choice. The others
+											are results you can combine to have something satisfactory.
+										</p>
+
+									</div>
+								{% endif %}
 								<div class="form-row">
 									<div class="form-holder form-holder-1">
 
